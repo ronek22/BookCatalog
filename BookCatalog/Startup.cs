@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using BookCatalog.Data;
 using BookCatalog.Models;
-using BookCatalog.Services;
 
 namespace BookCatalog
 {
@@ -34,7 +33,6 @@ namespace BookCatalog
                 .AddDefaultTokenProviders();
 
             // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
         }
