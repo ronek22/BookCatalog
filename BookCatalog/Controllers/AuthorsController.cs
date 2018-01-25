@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookCatalog.Data;
 using BookCatalog.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookCatalog.Controllers
 {
+    [Authorize]
     public class AuthorsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -33,8 +35,15 @@ namespace BookCatalog.Controllers
                 return NotFound();
             }
 
+
+            // LINQ - POLACZENIE AUTORA Z KSIAZKAMI
             var author = await _context.Author
+                .Include(s => s.Books)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(m => m.AuthorId == id);
+
+           // var author = await _context.Author
+             //   .SingleOrDefaultAsync(m => m.AuthorId == id);
             if (author == null)
             {
                 return NotFound();
@@ -44,6 +53,7 @@ namespace BookCatalog.Controllers
         }
 
         // GET: Authors/Create
+        [Authorize(Roles = "Administrator, Moderator")]
         public IActionResult Create()
         {
             return View();
@@ -66,6 +76,7 @@ namespace BookCatalog.Controllers
         }
 
         // GET: Authors/Edit/5
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -117,6 +128,7 @@ namespace BookCatalog.Controllers
         }
 
         // GET: Authors/Delete/5
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

@@ -10,10 +10,13 @@ namespace BookCatalog.Models
     public class Author
     {
         public int AuthorId { get; set; }
-        [StringLength(20, MinimumLength = 3)]
+        [Display(Name = "First Name")]
+        [StringLength(20, MinimumLength = 2)]
         [Capitalized]
         public string FirstName { get; set; }
-        [StringLength(20, MinimumLength = 3)]
+
+        [Display(Name = "Last Name")]
+        [StringLength(20, MinimumLength = 2)]
         [Capitalized]
         public string LastName { get; set; }
 

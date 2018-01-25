@@ -28,6 +28,7 @@ namespace BookCatalog.Models
         [DataType(DataType.Currency)]
         [Required]
         public decimal Price { get; set; }
+        [Display(Name = "Author")]
         public int AuthorId { get; set; }
         public Author Author { get; set; }
     }

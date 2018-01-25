@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookCatalog.Data;
 using BookCatalog.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace BookCatalog.Controllers
 {
+    [Authorize]
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -46,9 +48,10 @@ namespace BookCatalog.Controllers
         }
 
         // GET: Books/Create
+        [Authorize(Roles = "Administrator, Moderator")]
         public IActionResult Create()
         {
-            ViewData["AuthorId"] = new SelectList(_context.Author, "AuthorId", "AuthorId");
+            PopulateAuthorsDropDownList();
             return View();
         }
 
@@ -65,11 +68,12 @@ namespace BookCatalog.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorId"] = new SelectList(_context.Author, "AuthorId", "AuthorId", book.AuthorId);
+            PopulateAuthorsDropDownList();
             return View(book);
         }
 
         // GET: Books/Edit/5
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,7 +86,7 @@ namespace BookCatalog.Controllers
             {
                 return NotFound();
             }
-            ViewData["AuthorId"] = new SelectList(_context.Author, "AuthorId", "AuthorId", book.AuthorId);
+            PopulateAuthorsDropDownList();
             return View(book);
         }
 
@@ -118,11 +122,27 @@ namespace BookCatalog.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorId"] = new SelectList(_context.Author, "AuthorId", "AuthorId", book.AuthorId);
+            PopulateAuthorsDropDownList();
             return View(book);
         }
 
+        private void PopulateAuthorsDropDownList(object selectAuthor = null)
+        {
+            // LINQ
+            var authorsQuery = _context.Author
+                .Select(s => new
+                {
+                    Value = s.AuthorId,
+                    FullName = $"{s.FirstName} {s.LastName}"
+                })
+                .ToList();
+
+
+            ViewBag.AuthorId = new SelectList(authorsQuery, "Value", "FullName");
+        }
+
         // GET: Books/Delete/5
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

@@ -1,0 +1,21 @@
+﻿@model BookCatalog.Models.Author
+
+<dd>
+    <table class="table">
+        <tr>
+            <th>Book Title</th>
+            <th>Release Date</th>
+        </tr>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+            </tr>
+        }
+    </table>
+</dd>

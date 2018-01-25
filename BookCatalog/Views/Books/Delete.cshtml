@@ -39,13 +39,15 @@
             @Html.DisplayNameFor(model => model.Author)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Author.AuthorId)
+            @Html.DisplayFor(model => model.Author.FirstName)
+            @Html.DisplayFor(model => model.Author.LastName)
+
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="BookId" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger btn-sm" />
+        <a asp-action="Index" class="btn btn-info btn-sm">Back to List</a>
     </form>
 </div>
