@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BookCatalog.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using BookCatalog.Models;
 
 namespace BookCatalog.Data
 {
@@ -22,5 +18,10 @@ namespace BookCatalog.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<Author> Author { get; set; }
+
+        public DbSet<Book> Book { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 }
