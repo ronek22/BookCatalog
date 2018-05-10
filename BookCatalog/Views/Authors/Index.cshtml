@@ -9,7 +9,7 @@
 @if (SignInManager.IsSignedIn(User) && !User.IsInRole("User"))
 {
     <p>
-        <a asp-action="Create" class="btn btn-success btn-sm">Create New</a>
+        <a id="CreateAuthor" asp-action="Create" class="btn btn-success btn-sm">Create New</a>
     </p>
 
 }
